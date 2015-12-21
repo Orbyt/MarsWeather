@@ -128,7 +128,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
                     updatePicture(context, views, getYesterdayDateString());
                     Log.d("updatepicture", "else block executed");
                 }
-
             }
 
             @Override
