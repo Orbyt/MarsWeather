@@ -1,22 +1,22 @@
 package orbyt.marsweather;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import orbyt.marsweather.models.picture.Photo;
 import orbyt.marsweather.models.picture.PictureAPI;
@@ -37,6 +37,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
     public static final String PICTURE_URL = "https://api.nasa.gov";
 
     public static int[] mAppWidgetIds;
+    public static int widgetId;
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -48,28 +49,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         }
     }
 
-
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        //After after 3 seconds
-        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ 3000, pi);
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
-        super.onDisabled(context);
-    }
-
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
@@ -79,12 +58,13 @@ public class MarsWeatherWidget extends AppWidgetProvider {
 
         Log.d("date", "current date: " + date + ", yesterdays date: " + getYesterdayDateString());
 
+        widgetId = appWidgetId;
+
         updatePicture(context, views, date);
         updateWeather(views, appWidgetManager, appWidgetId);
 
 
-        views.setTextViewText(R.id.msdValue, NumberFormat.getIntegerInstance().format((int) getCurrentMSD(views)));
-
+        //views.setTextViewText(R.id.msdValue, NumberFormat.getIntegerInstance().format((int) getCurrentMSD(views)));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -101,33 +81,35 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         PictureService pictureService = retrofit.create(PictureService.class);
         Call<PictureAPI> pictureAPICall = pictureService.getPhotos(date);
         pictureAPICall.enqueue(new Callback<PictureAPI>() {
+
             @Override
             public void onResponse(Response<PictureAPI> response, Retrofit retrofit) {
 
-//                if (response.code() != 200) {
-//                    Log.d("updatepicture", "Response code wasnt 200, it was" + response.code());
-//                    return;
-//                }
 
-                if (response.body() != null) {
+                if (response.body() != null && response.code() == 200) {
 
                     Log.d("weatherresponse", response.raw() + "");
 
                     List<Photo> photoList = response.body().getPhotos();
                     Log.d("weatherresponse", photoList.get(0).getImg_src());
 
+                    Random random = new Random();
+                    Photo currentPhoto = photoList.get(random.nextInt(photoList.size()));
+
                     Picasso.with(context)
-                            .load(photoList.get(0).getImg_src())
+                            .load(currentPhoto.getImg_src())
                             .into(views, R.id.pictureImageView, mAppWidgetIds);
 
-                    String solDay = Integer.toString(photoList.get(0).getSol() + 1);
+                    views.setTextViewText(R.id.rover, currentPhoto.getRover().getName());
+                    views.setTextViewText(R.id.missonSol, Integer.toString(currentPhoto.getRover().getMaxSol()));
+                    views.setTextViewText(R.id.roverCamera, currentPhoto.getCamera().getFullName());
+                    Log.d("test", currentPhoto.getCamera().getFullName());
 
-                    views.setTextViewText(R.id.solTextView, solDay);
-                    Log.d("wtff" ,"waaaaaaaaaaaaaaa");
                 } else {
-                    updatePicture(context, views, getYesterdayDateString());
-                    Log.d("updatepicture", "else block executed");
+                    updateYesterdaysPicture(context, views, getYesterdayDateString());
+                    Log.d("todayspicture", "todays picture updated failed");
                 }
+
             }
 
             @Override
@@ -157,10 +139,11 @@ public class MarsWeatherWidget extends AppWidgetProvider {
                 Log.d("response", response.raw() + "");
 
                 Report report = response.body().getReport();
-                views.setTextViewText(R.id.minTempTextView, Double.toString(report.getMin_temp_fahrenheit()) + "\u2109");
-                views.setTextViewText(R.id.maxTempTextView, Double.toString(report.getMax_temp_fahrenheit()) + "\u2109");
+                double minTemp = report.getMin_temp_fahrenheit();
+                double maxTemp = report.getMax_temp_fahrenheit();
+
+                views.setTextViewText(R.id.temperature, minTemp + "F" + "/" + maxTemp + "F" + "\u2109");
                 views.setTextViewText(R.id.pressureTextView, Double.toString(report.getPressure()) + "Pa");
-                views.setTextViewText(R.id.lastUpdateTextView, "weather last updated: " + report.getTerrestrial_date());
 
 
                 appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -177,6 +160,104 @@ public class MarsWeatherWidget extends AppWidgetProvider {
 
     }
 
+    public static void updateYesterdaysPicture(final Context context, final RemoteViews views, final String date) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PICTURE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PictureService pictureService = retrofit.create(PictureService.class);
+        Call<PictureAPI> pictureAPICall = pictureService.getPhotos(date);
+        pictureAPICall.enqueue(new Callback<PictureAPI>() {
+
+            @Override
+            public void onResponse(Response<PictureAPI> response, Retrofit retrofit) {
+
+
+                if (response.body() != null && response.code() == 200) {
+
+                    Log.d("weatherresponse", response.raw() + "");
+
+                    List<Photo> photoList = response.body().getPhotos();
+                    Log.d("weatherresponse", photoList.get(0).getImg_src());
+
+                    Random random = new Random();
+                    Photo currentPhoto = photoList.get(random.nextInt(photoList.size()));
+
+                    Picasso.with(context)
+                            .load(currentPhoto.getImg_src())
+                            .into(views, R.id.pictureImageView, mAppWidgetIds);
+
+                    views.setTextViewText(R.id.rover, currentPhoto.getRover().getName());
+                    views.setTextViewText(R.id.missonSol, Integer.toString(currentPhoto.getRover().getMaxSol()));
+                    views.setTextViewText(R.id.roverCamera, currentPhoto.getCamera().getFullName());
+                    Log.d("test", currentPhoto.getCamera().getFullName());
+
+                } else {
+                    updateTwoDaysAgoPicture(context, views, getTwoDaysAgoDateString());
+                    Log.d("yesterdayspicture", "yesterdays picture update failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public static void updateTwoDaysAgoPicture(final Context context, final RemoteViews views, final String date) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PICTURE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PictureService pictureService = retrofit.create(PictureService.class);
+        Call<PictureAPI> pictureAPICall = pictureService.getPhotos(date);
+        pictureAPICall.enqueue(new Callback<PictureAPI>() {
+
+            @Override
+            public void onResponse(Response<PictureAPI> response, Retrofit retrofit) {
+
+
+                if (response.body() != null && response.code() == 200) {
+
+                    Log.d("weatherresponse", response.raw() + "");
+
+                    List<Photo> photoList = response.body().getPhotos();
+                    Log.d("weatherresponse", photoList.get(0).getImg_src());
+
+                    Random random = new Random();
+                    Photo currentPhoto = photoList.get(random.nextInt(photoList.size()));
+
+                    Picasso.with(context)
+                            .load(currentPhoto.getImg_src())
+                            .into(views, R.id.pictureImageView, mAppWidgetIds);
+
+                    views.setTextViewText(R.id.rover, currentPhoto.getRover().getName());
+                    views.setTextViewText(R.id.missonSol, Integer.toString(currentPhoto.getRover().getMaxSol()) + "sol");
+                    views.setTextViewText(R.id.roverCamera, currentPhoto.getCamera().getFullName());
+                    Log.d("test", currentPhoto.getCamera().getFullName());
+                    Uri uri = Uri.parse(currentPhoto.getImg_src());
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(uri);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    views.setOnClickPendingIntent(R.id.viewInBrowser, pendingIntent);
+
+                } else {
+                    Log.d("twodaysagopicture", "two days ago picture update failed" + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
     private static String getYesterdayDateString() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -184,10 +265,15 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         return dateFormat.format(cal.getTime());
     }
 
+    private static String getTwoDaysAgoDateString() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -2);
+        return dateFormat.format(cal.getTime());
+    }
+
     private static double getCurrentMSD(RemoteViews views) {
         long millis = System.currentTimeMillis();
-
-        views.setTextViewText(R.id.sysmilli, Long.toString(millis));
 
         double julianDate = 2440587.5 + (millis / 86400000);
 
@@ -196,7 +282,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         double j2000Epoch = julianDateTT - 2451545.0;
 
         double marsSolDate =((j2000Epoch - 4.5) / 1.027491252) + 44796 - 0.00096;
-
 
         return marsSolDate;
     }

@@ -10,7 +10,7 @@ public class Camera {
     private Integer id;
     private String name;
     private Integer roverId;
-    private String fullName;
+    private String full_name;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -70,10 +70,10 @@ public class Camera {
     /**
      * 
      * @return
-     *     The fullName
+     *     The full_name
      */
     public String getFullName() {
-        return fullName;
+        return full_name;
     }
 
     /**
@@ -82,7 +82,7 @@ public class Camera {
      *     The full_name
      */
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.full_name = fullName;
     }
 
     public Map<String, Object> getAdditionalProperties() {

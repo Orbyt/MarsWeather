@@ -11,7 +11,7 @@ public class Rover {
     private Integer id;
     private String name;
     private String landingDate;
-    private Integer maxSol;
+    private Integer max_sol;
     private String maxDate;
     private Integer total_photos;
     private List<Camera_> cameras = new ArrayList<Camera_>();
@@ -74,10 +74,10 @@ public class Rover {
     /**
      * 
      * @return
-     *     The maxSol
+     *     The max_sol
      */
     public Integer getMaxSol() {
-        return maxSol;
+        return max_sol;
     }
 
     /**
@@ -86,7 +86,7 @@ public class Rover {
      *     The max_sol
      */
     public void setMaxSol(Integer maxSol) {
-        this.maxSol = maxSol;
+        this.max_sol = maxSol;
     }
 
     /**
