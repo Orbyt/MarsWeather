@@ -123,7 +123,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
                     String solDay = Integer.toString(photoList.get(0).getSol() + 1);
 
                     views.setTextViewText(R.id.solTextView, solDay);
-                    Log.d("wtff" ,"waaaaaaaaaaaaaaa");
+
                 } else {
                     updatePicture(context, views, getYesterdayDateString());
                     Log.d("updatepicture", "else block executed");
