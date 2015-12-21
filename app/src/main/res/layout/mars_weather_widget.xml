@@ -3,424 +3,73 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/widget_margin">
 
+
     <ImageView
         android:id="@+id/pictureImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/exampleroverimg"/>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#7d000000"
-        >
-
-    </FrameLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#50000000"
+        android:background="#fff"
         android:id="@+id/bottomBar">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/pressureTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0Pa"
+                android:textColor="#000"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/gauge"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/thermometer"/>
+
+        </LinearLayout>
+
         <TextView
+            android:id="@+id/rover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="weather last updated:"
-            android:id="@+id/lastUpdateTextView"
-            android:textStyle="italic"
-            android:textSize="11sp"
-            android:layout_marginLeft="2dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
+            android:text="Curiosity"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/missonSol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_settings_white_24dp"
+            android:src="@drawable/settings"
             android:id="@+id/settingsIconImageView"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
-
-    </RelativeLayout>
-
-
-    <!--<TextView-->
-        <!--android:id="@+id/mtcSolValue"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-        <!--android:textSize="56sp"-->
-        <!--android:text="3:40"-->
-        <!--android:layout_centerHorizontal="true"-->
-
-        <!--/>-->
-
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="MTC"-->
-        <!--android:layout_toRightOf="@+id/mtcSolValue"-->
-        <!--android:layout_alignBaseline="@+id/mtcSolValue"-->
-        <!--/>-->
-
-    <TextView
-        android:id="@+id/msdValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00,000"
-        android:textSize="36sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/msdValue"
-        android:layout_alignBaseline="@id/msdValue"
-        android:text="MSD"
-        android:layout_marginLeft="2dp"/>
-
-    <TextView
-        android:id="@+id/sysmilli"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/msdValue"
-        android:layout_centerHorizontal="true"
-        android:text="000"/>
-
-
-    <LinearLayout
-        android:id="@+id/solValuesLinearLayout"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone">
-
-        <TextView
-            android:includeFontPadding="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="1107"
-            android:id="@+id/solTextView"
-            android:textSize="56sp"
-            android:layout_centerHorizontal="true"/>
-
-        <TextView
-            android:includeFontPadding="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Curiosity Sol"
-            android:id="@+id/solLabelTextView"
-            android:textSize="16sp"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_centerVertical="true"
+            android:tint="#6f6f6f"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
 
     </LinearLayout>
-
-
-    <!--<ImageView-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:src="@drawable/ic_sun"-->
-        <!--android:layout_alignBottom="@+id/marsImageView"-->
-        <!--android:layout_alignEnd="@+id/marsImageView"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:id="@+id/weatherIconImageView"/>-->
-
-    <RelativeLayout
-        android:id="@+id/tempsRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:padding="2dp"
-        android:layout_above="@+id/pressure">
-
-        <LinearLayout
-            android:id="@+id/minLinearLayout"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="min"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="-4dp"/>
-
-            <TextView
-                android:id="@+id/minTempTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-92F"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/thermostatIconImageView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_thermostat"
-            android:layout_toRightOf="@+id/minLinearLayout"
-            android:layout_alignBottom="@+id/minLinearLayout"
-            />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/thermostatIconImageView">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="max"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="-4dp"
-                />
-
-            <TextView
-                android:id="@+id/maxTempTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="23F"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/pressure"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/bottomBar">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_gauge"
-            android:layout_gravity="center"/>
-        <TextView
-            android:id="@+id/pressureTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="0Pa"/>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="-6dp"
-        android:src="@drawable/mars"
-        android:id="@+id/marsImageView"
-        android:layout_gravity="right|center_vertical"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="false"
-        android:layout_centerVertical="true"/>
-
-    <LinearLayout
-        android:id="@+id/locationLinearLayout"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/marsImageView"
-        android:layout_alignParentEnd="true"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/ic_crosshairs"
-            android:paddingRight="2dp"/>
-
-        <TextView
-            android:includeFontPadding="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mars"
-            android:id="@+id/marsTextView"
-            android:paddingRight="4dp"
-            android:paddingLeft="2dp"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/locationLinearLayout"
-        android:text="Sunny"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="4dp"
-        android:textSize="12sp"/>
 
 </RelativeLayout>
-
-
-
-
-
-
-
-
-
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_margin="@dimen/widget_margin">-->
-
-    <!--<ImageView-->
-        <!--android:id="@+id/pictureImageView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:alpha=".75"/>-->
-
-    <!--<FrameLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="#7d000000"-->
-    <!--></FrameLayout>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/earthDateTextView"-->
-        <!--android:text="yyyy-mm-dd"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginRight="6dp"-->
-        <!--android:background="#50000000"/>-->
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:background="#50000000">-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-            <!--android:text="weather last updated:"-->
-            <!--android:id="@+id/lastUpdateTextView"-->
-            <!--android:textStyle="italic"-->
-            <!--android:textSize="11sp"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_centerVertical="true"/>-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:src="@drawable/ic_settings_white_24dp"-->
-            <!--android:id="@+id/settingsIconImageView"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_centerVertical="true"/>-->
-
-    <!--</RelativeLayout>-->
-
-    <!--<LinearLayout-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/earthDateTextView"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginTop="0dp"-->
-        <!--android:paddingRight="6dp"-->
-        <!--android:paddingLeft="2dp"-->
-        <!--android:background="#50000000">-->
-
-        <!--<TextView-->
-            <!--android:includeFontPadding="false"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-            <!--android:text="0000"-->
-            <!--android:id="@+id/solTextView"-->
-            <!--android:textSize="@dimen/abc_text_size_display_3_material"-->
-            <!--android:layout_gravity="left|center_vertical|bottom"/>-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-            <!--android:text="sol"-->
-            <!--android:id="@+id/solLabelTextView"-->
-            <!--android:textSize="22sp"-->
-            <!--android:layout_gravity="bottom|right"-->
-            <!--/>-->
-
-    <!--</LinearLayout>-->
-
-
-
-    <!--<ImageView-->
-        <!--android:layout_width="80dp"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:layout_marginLeft="-6dp"-->
-        <!--android:src="@drawable/mars"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:id="@+id/marsImageView"/>-->
-
-    <!--<ImageView-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:src="@drawable/ic_sun"-->
-        <!--android:layout_alignBottom="@+id/marsImageView"-->
-        <!--android:layout_alignEnd="@+id/marsImageView"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:id="@+id/weatherIconImageView"/>-->
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_marginBottom="50dp"-->
-        <!--android:background="#50000000"-->
-        <!--android:padding="6dp">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/minTempTextView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="-92F"-->
-            <!--android:layout_centerVertical="true"/>-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/thermostatIconImageView"-->
-            <!--android:layout_width="18dp"-->
-            <!--android:layout_height="28dp"-->
-            <!--android:src="@drawable/ic_thermostat"-->
-            <!--android:layout_toRightOf="@+id/minTempTextView"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/maxTempTextView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="23F"-->
-            <!--android:layout_toRightOf="@id/thermostatIconImageView"-->
-            <!--android:layout_centerVertical="true"/>-->
-
-
-
-    <!--</RelativeLayout>-->
-
-
-
-
-<!--</RelativeLayout>-->

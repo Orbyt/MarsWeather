@@ -10,6 +10,6 @@ import retrofit.http.Query;
  */
 public interface PictureService {
 
-    @GET("/mars-photos/api/v1/rovers/curiosity/photos?api_key=DEMO_KEY")
+    @GET("/mars-photos/api/v1/rovers/curiosity/photos?api_key=NkXYxgk2rJBDvAlhBipu7Zg0gp2fEiikjQiXsPZP")
     Call<PictureAPI> getPhotos(@Query("earth_date") String earthDate);
 }
