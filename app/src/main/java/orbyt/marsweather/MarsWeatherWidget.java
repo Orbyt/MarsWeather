@@ -1,11 +1,8 @@
 package orbyt.marsweather;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -17,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import orbyt.marsweather.models.picture.Photo;
 import orbyt.marsweather.models.picture.PictureAPI;
@@ -48,28 +46,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         }
     }
 
-
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-        AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        //After after 3 seconds
-        am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ 3000, pi);
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(sender);
-        super.onDisabled(context);
-    }
-
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
@@ -84,7 +60,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
 
 
         views.setTextViewText(R.id.msdValue, NumberFormat.getIntegerInstance().format((int) getCurrentMSD(views)));
-
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -116,13 +91,15 @@ public class MarsWeatherWidget extends AppWidgetProvider {
                     List<Photo> photoList = response.body().getPhotos();
                     Log.d("weatherresponse", photoList.get(0).getImg_src());
 
+                    Random random = new Random();
+                    Photo currentPhoto = photoList.get(random.nextInt(photoList.size()));
+
                     Picasso.with(context)
-                            .load(photoList.get(0).getImg_src())
+                            .load(currentPhoto.getImg_src())
                             .into(views, R.id.pictureImageView, mAppWidgetIds);
 
-                    String solDay = Integer.toString(photoList.get(0).getSol() + 1);
-
-                    views.setTextViewText(R.id.solTextView, solDay);
+                    views.setTextViewText(R.id.currentRover, currentPhoto.getRover().getName());
+                    views.setTextViewText(R.id.currentCamera, currentPhoto.getCamera().getFullName());
 
                 } else {
                     updatePicture(context, views, getYesterdayDateString());
@@ -161,7 +138,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
                 views.setTextViewText(R.id.minTempTextView, Double.toString(report.getMin_temp_fahrenheit()) + "\u2109");
                 views.setTextViewText(R.id.maxTempTextView, Double.toString(report.getMax_temp_fahrenheit()) + "\u2109");
                 views.setTextViewText(R.id.pressureTextView, Double.toString(report.getPressure()) + "Pa");
-                views.setTextViewText(R.id.lastUpdateTextView, "weather last updated: " + report.getTerrestrial_date());
+               // views.setTextViewText(R.id.lastUpdateTextView, "weather last updated: " + report.getTerrestrial_date());
 
 
                 appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -188,8 +165,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
     private static double getCurrentMSD(RemoteViews views) {
         long millis = System.currentTimeMillis();
 
-        views.setTextViewText(R.id.sysmilli, Long.toString(millis));
-
         double julianDate = 2440587.5 + (millis / 86400000);
 
         double julianDateTT = julianDate + (35 + 32.184)/86400;
@@ -197,7 +172,6 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         double j2000Epoch = julianDateTT - 2451545.0;
 
         double marsSolDate =((j2000Epoch - 4.5) / 1.027491252) + 44796 - 0.00096;
-
 
         return marsSolDate;
     }

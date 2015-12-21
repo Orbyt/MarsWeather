@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ConfigActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -17,7 +17,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         displayDialog();
 
-        final Context context = ConfigActivity.this;
+        final Context context = SettingsActivity.this;
 
         // Find the widget id from the intent.
         Intent intent = getIntent();

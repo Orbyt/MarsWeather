@@ -28,13 +28,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="weather last updated:"
-            android:id="@+id/lastUpdateTextView"
-            android:textStyle="italic"
-            android:textSize="11sp"
+            android:text="Current rover:"
+            android:id="@+id/currentRoverLabel"
+            android:textSize="14sp"
             android:layout_marginLeft="2dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/currentRover"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/currentRoverLabel"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:textStyle="bold"/>
 
         <ImageView
             android:layout_width="24dp"
@@ -83,13 +92,12 @@
         android:layout_marginLeft="2dp"/>
 
     <TextView
-        android:id="@+id/sysmilli"
+        android:id="@+id/currentCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/msdValue"
         android:layout_centerHorizontal="true"
-        android:text="000"/>
-
+        android:text="Rear Hazard Avoidance Camera"/>
 
     <LinearLayout
         android:id="@+id/solValuesLinearLayout"
