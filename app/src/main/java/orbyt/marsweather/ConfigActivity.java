@@ -1,10 +1,12 @@
 package orbyt.marsweather;
 
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.RemoteViews;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -17,7 +19,11 @@ public class ConfigActivity extends AppCompatActivity {
 
         displayDialog();
 
-        final Context context = ConfigActivity.this;
+        Context context = this;
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.mars_weather_widget);
+        ComponentName thisWidget = new ComponentName(context, MarsWeatherWidget.class);
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
 
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -28,19 +34,13 @@ public class ConfigActivity extends AppCompatActivity {
         }
 
         // It is the responsibility of the configuration activity to update the app widget
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        //AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         MarsWeatherWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
-        // Make sure we pass back the original appWidgetId
-        Intent resultValue = new Intent();
-        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-        setResult(RESULT_OK, resultValue);
-        //finish();
     }
 
     public void displayDialog() {
         ConfigStartDialog configStartDialog = new ConfigStartDialog();
         configStartDialog.show(getFragmentManager(), "ConfigStartDialog");
-
     }
 }

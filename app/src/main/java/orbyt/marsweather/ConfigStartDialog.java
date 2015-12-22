@@ -16,10 +16,11 @@ public class ConfigStartDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Mars Weather")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setMessage("Settings and options are coming soon, stay tuned!")
+                .setTitle("Mars Weather V1.0")
+                .setPositiveButton("Finish", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
+                        getActivity().finish();
                     }
                 });
         // Create the AlertDialog object and return it

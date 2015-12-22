@@ -1,176 +1,125 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/widget_margin">
+                android:layout_margin="@dimen/widget_margin"
+    >
 
 
     <ImageView
+        android:layout_weight="1"
         android:id="@+id/pictureImageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/exampleroverimg"/>
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"/>
 
-    <ViewFlipper android:layout_width="match_parent"
-                 android:layout_height="50dp"
-                 android:measureAllChildren="true"
-                 android:flipInterval="5000"
-                 android:autoStart="true"
-                 android:inAnimation="@android:anim/fade_in"
-                 android:outAnimation="@android:anim/fade_out"
-                 android:layout_alignParentBottom="true"
-                 android:animateFirstView="true">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/bottomBar"
+        android:background="#fff"
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#fff"
-            android:id="@+id/mainBar">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:src="@drawable/settings"
+            android:id="@+id/settingsIconImageView"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".15"
+            style="@style/IconStyle"/>
 
-            <ImageView
-                android:id="@+id/viewInBrowser"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:src="@drawable/exit_to_app"
-                android:layout_weight="1"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/rover"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Curiosity"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textColor="#595959"
-                android:typeface="normal"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/missonSol"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="1000sol"
-                android:textColor="#212121"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:src="@drawable/settings"
-                android:id="@+id/settingsIconImageView"
-                android:tint="#212121"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#fff"
-            android:id="@+id/detailsBar">
+        <ViewFlipper android:layout_width="0dp"
+                     android:layout_height="match_parent"
+                     android:measureAllChildren="true"
+                     android:flipInterval="15000"
+                     android:autoStart="true"
+                     android:inAnimation="@android:anim/fade_in"
+                     android:outAnimation="@android:anim/fade_out"
+                     android:animateFirstView="true"
+                     android:layout_weight=".70">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:background="#fff"
+                android:id="@+id/mainBar">
 
                 <TextView
-                    android:id="@+id/pressureTextView"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rover"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="0Pa"
-                    android:textColor="#212121"
                     android:layout_gravity="center"
-                    android:drawableLeft="@drawable/gauge"
                     android:gravity="center"
-                    android:drawableTint="#212121"/>
+                    android:layout_weight="1"
+                    style="@style/TextStyle"/>
 
                 <TextView
-                    android:id="@+id/temperature"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/missonSol"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="#212121"
-                    android:text="00f/00f"
-                    android:drawableLeft="@drawable/thermometer"
-                    android:drawableTint="#212121"/>
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    style="@style/TextStyle"/>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/rover"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Curiosity"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textColor="#595959"
-                android:typeface="normal"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:id="@+id/detailsBar">
 
-            <TextView
-                android:id="@+id/missonSol"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="1000sol"
-                android:textColor="#212121"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/pressureTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    style="@style/TextStyle"/>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:src="@drawable/settings"
-                android:id="@+id/settingsIconImageView"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:tint="#212121"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/temperature"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    style="@style/TextStyle"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#fff"
-            android:id="@+id/cameraBar">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:id="@+id/cameraBar"
+                android:layout_gravity="center">
 
-            <TextView
-                android:id="@+id/roverCamera"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="right"
-                android:layout_weight=".75"
-                android:textColor="#595959"
-                android:typeface="normal"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/roverCamera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    style="@style/TextStyle"/>
 
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:src="@drawable/settings"
-                android:tint="#212121"
-                android:layout_gravity="center_vertical"
-                android:layout_weight=".25"/>
+        </ViewFlipper>
 
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/viewInBrowser"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:src="@drawable/exit_to_app"
+            android:layout_weight=".15"
+            android:layout_gravity="center"
+            style="@style/IconStyle"/>
 
-    </ViewFlipper>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
