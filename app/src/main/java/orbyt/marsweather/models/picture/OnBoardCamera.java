@@ -4,7 +4,7 @@ package orbyt.marsweather.models.picture;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Camera_ {
+public class OnBoardCamera {
 
     private String name;
     private String fullName;

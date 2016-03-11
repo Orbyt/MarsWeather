@@ -38,7 +38,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         // It is the responsibility of the configuration activity to update the app widget
         //AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        MarsWeatherWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+       // MarsWeatherWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
 
     }
 

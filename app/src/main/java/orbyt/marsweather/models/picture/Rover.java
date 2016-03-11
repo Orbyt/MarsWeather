@@ -14,7 +14,7 @@ public class Rover {
     private Integer max_sol;
     private String maxDate;
     private Integer total_photos;
-    private List<Camera_> cameras = new ArrayList<Camera_>();
+    private List<OnBoardCamera> cameras = new ArrayList<OnBoardCamera>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -130,7 +130,7 @@ public class Rover {
      * @return
      *     The cameras
      */
-    public List<Camera_> getCameras() {
+    public List<OnBoardCamera> getCameras() {
         return cameras;
     }
 
@@ -139,7 +139,7 @@ public class Rover {
      * @param cameras
      *     The cameras
      */
-    public void setCameras(List<Camera_> cameras) {
+    public void setCameras(List<OnBoardCamera> cameras) {
         this.cameras = cameras;
     }
 

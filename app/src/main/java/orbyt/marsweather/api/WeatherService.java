@@ -1,8 +1,8 @@
 package orbyt.marsweather.api;
 
 import orbyt.marsweather.models.weather.WeatherAPI;
-import retrofit.Call;
-import retrofit.http.GET;
+import retrofit2.http.GET;
+import rx.Observable;
 
 /**
  * Created by orbyt on 12/9/2015.
@@ -16,5 +16,5 @@ public interface WeatherService {
      */
 
     @GET("/v1/latest/")
-    Call<WeatherAPI> getReport();
+    Observable<WeatherAPI> getReport();
 }
