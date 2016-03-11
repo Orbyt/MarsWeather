@@ -97,6 +97,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
                 .flatMap(s -> pictureService.getPhotos(s))
                 .filter(pictureAPI -> pictureAPI.getPhotos() != null || pictureAPI.getPhotos().size() > 0)
                 .take(1)
+                .doOnError(throwable -> throwable.printStackTrace())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pictureAPI -> {
@@ -142,6 +143,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         weatherService.getReport()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(throwable -> throwable.printStackTrace())
                 .subscribe(weatherAPI -> {
 
                     Report report = weatherAPI.getReport();
