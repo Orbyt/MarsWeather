@@ -17,10 +17,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import orbyt.marsweather.api.PictureService;
+import orbyt.marsweather.api.WeatherService;
 import orbyt.marsweather.models.picture.Photo;
 import orbyt.marsweather.models.picture.PictureAPI;
 import orbyt.marsweather.models.weather.Report;
 import orbyt.marsweather.models.weather.WeatherAPI;
+import orbyt.marsweather.settings.ConfigActivity;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -57,7 +60,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
         }
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.mars_weather_widget);
@@ -70,7 +73,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
 
         widgetId = appWidgetId;
 
-        updatePicture(context, views, getFormattedDate(0));
+        updateTwoDaysAgoPicture(context, views, getFormattedDate(-3));
         updateWeather(views, appWidgetManager, appWidgetId);
 
         // Instruct the widget manager to update the widget

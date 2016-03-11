@@ -1,4 +1,4 @@
-package orbyt.marsweather;
+package orbyt.marsweather.api;
 
 import orbyt.marsweather.models.picture.PictureAPI;
 import retrofit.Call;

@@ -20,7 +20,7 @@
                 android:resource="@xml/mars_weather_widget_info"/>
         </receiver>
 
-        <activity android:name=".ConfigActivity">
+        <activity android:name=".settings.ConfigActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>

@@ -1,4 +1,4 @@
-package orbyt.marsweather;
+package orbyt.marsweather.settings;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RemoteViews;
+
+import orbyt.marsweather.MarsWeatherWidget;
+import orbyt.marsweather.R;
 
 public class ConfigActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package orbyt.marsweather;
+package orbyt.marsweather.settings;
 
 
 import android.app.AlertDialog;
