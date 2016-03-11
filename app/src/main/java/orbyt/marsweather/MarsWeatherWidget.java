@@ -16,14 +16,15 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import orbyt.marsweather.api.PictureService;
 import orbyt.marsweather.api.WeatherService;
 import orbyt.marsweather.models.picture.Photo;
 import orbyt.marsweather.models.weather.Report;
 import orbyt.marsweather.settings.ConfigActivity;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -35,16 +36,20 @@ import rx.schedulers.Schedulers;
  */
 public class MarsWeatherWidget extends AppWidgetProvider {
 
-    private static final String WEATHER_URL = "http://marsweather.ingenology.com";
+    public static final String WEATHER_URL = "http://marsweather.ingenology.com";
     public static final String PICTURE_URL = "https://api.nasa.gov";
 
     public static int[] mAppWidgetIds;
     public static int widgetId;
 
+    @Inject Retrofit pictureRetrofit;
+    @Inject @Named("weather") Retrofit weatherRetrofit;
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         mAppWidgetIds = appWidgetIds;
+        ((MyWidget) context.getApplicationContext()).getApiComponent().inject(this);
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
             updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
@@ -77,13 +82,13 @@ public class MarsWeatherWidget extends AppWidgetProvider {
      */
     public void updatePicture(final Context context, final RemoteViews views, final String date) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PICTURE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(PICTURE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .build();
 
-        PictureService pictureService = retrofit.create(PictureService.class);
+        PictureService pictureService = pictureRetrofit.create(PictureService.class);
 
         /**
          * TODO: Do not execute requests for previous dates if first returns OK.
@@ -118,7 +123,7 @@ public class MarsWeatherWidget extends AppWidgetProvider {
     /**
      * Updates weather report to latest.
      *
-     * TODO: Inject Retrofit with Dagger.
+     *
      * @param views
      * @param appWidgetManager
      * @param appWidgetId
@@ -126,13 +131,13 @@ public class MarsWeatherWidget extends AppWidgetProvider {
     public void updateWeather(final RemoteViews views, final AppWidgetManager appWidgetManager,
                                      final int appWidgetId) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(WEATHER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(WEATHER_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .build();
 
-        WeatherService weatherService = retrofit.create(WeatherService.class);
+        WeatherService weatherService = weatherRetrofit.create(WeatherService.class);
 
         weatherService.getReport()
                 .subscribeOn(Schedulers.io())
